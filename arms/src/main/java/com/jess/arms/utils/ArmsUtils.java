@@ -57,6 +57,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ArmsUtils {
     static public Toast mToast;
 
+    private static AppComponent mAppComponent;
+
+    public static void injectAppComponent(AppComponent appComponent){
+        mAppComponent = appComponent;
+    }
+
     private ArmsUtils() {
         throw new IllegalStateException("you can't instantiate me!");
     }
@@ -454,6 +460,9 @@ public class ArmsUtils {
     }
 
     public static AppComponent obtainAppComponentFromContext(Context context) {
+        if(mAppComponent != null){
+            return mAppComponent;
+        }
         Preconditions.checkNotNull(context, "%s cannot be null", Context.class.getName());
         Preconditions.checkState(context.getApplicationContext() instanceof App, "%s must be implements %s", context.getApplicationContext().getClass().getName(), App.class.getName());
         return ((App) context.getApplicationContext()).getAppComponent();
